@@ -1,0 +1,87 @@
+﻿@using Contacts.Web.Models.PersonViewModels;
+
+@{
+    ViewData["Title"] = "Add";
+    Layout = null;
+}
+
+@model CreatePersonViewModel
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+
+<div class="col-md-12" style="margin-top: 20px;">
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">Kişi Kaydetme Ekranı</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="card-refresh" data-source-selector="#card-refresh-content" data-load-on-init="false">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+            <!-- /.card-tools -->
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+
+
+            <form asp-controller="Person" asp-action="AddPerson" method="post">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Kişi İsim:</label>
+                        <input asp-for="Name" name="Name" type="text" class="form-control" placeholder="Kişi isim giriniz..">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Kişi Soyisim:</label>
+                        <input asp-for="Surname" name="Surname" type="text" class="form-control" placeholder="Kişi soyisim giriniz..">
+                    </div>
+                    <div class="form-group">
+                        <label>Yaş:</label>
+                        <input asp-for="Age" name="Age" type="number" class="form-control" placeholder="Kişinin yaşını giriniz..">
+                        <span asp-validation-for="Age" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Cinsiyet:</label>
+                        <div class="form-group">
+                            <select class="form-control" asp-for="Gender" name="Gender">
+                                <option>Kız</option>
+                                <option>Erkek</option>
+                                <option>Belirtmek istemiyor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Kişi Adres:</label>
+                        <input asp-for="Address" name="Address" type="text" class="form-control" placeholder="Kişinin adresini giriniz..">
+                    </div>
+                    <div class="form-group">
+                        <label>Kişi Mail:</label>
+                        <input asp-for="Email" name="Email" type="email" class="form-control" placeholder="Kişi email adresini giriniz..">
+                    </div>
+                    <div class="form-group">
+                        <label>Kişi GitHub Linki:</label>
+                        <input asp-for="GitHub" name="GitHub" type="text" class="form-control" placeholder="Kişi github profil linkini giriniz..">
+                    </div>
+                    <button type="submit" class="btn btn-success toastsDefaultSuccess">
+                        Kaydet
+                    </button>
+                </div>
+                <!-- /.card-body -->
+
+            </form>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>

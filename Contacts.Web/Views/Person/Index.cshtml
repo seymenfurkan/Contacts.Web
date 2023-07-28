@@ -1,0 +1,225 @@
+﻿@using Contacts.Web.Models.PersonViewModels;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_ExampleLayout";
+}
+
+@model List<PersonListViewModel>
+
+
+@section Css {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/Admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="~/Admin/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="~/Admin/plugins/toastr/toastr.min.css">
+
+}
+
+
+@section Scripts{
+    @*<script type="text/javascript">
+        function Go() {
+            var url = "@Url.Action("AddContact","Person")";
+            window.location.pathname = url;
+        }
+
+    </script>*@
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="~/Admin/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/Admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="~/Admin/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <!-- Toastr -->
+    <script src="~/Admin/plugins/toastr/toastr.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Admin/dist/js/adminlte.min.js"></script>
+    
+    <script>
+        //$(function () {
+        //    $("#example1").DataTable({
+        //        "responsive": true, "lengthChange": false, "autoWidth": false,
+        //        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+        //    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        //    $('#example2').DataTable({
+        //        "paging": true,
+        //        "lengthChange": false,
+        //        "searching": false,
+        //        "ordering": true,
+        //        "info": true,
+        //        "autoWidth": false,
+        //        "responsive": true,
+        //    });
+        //});
+        $(document).ready(function () {
+            $("#example1").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "lengthChange": true,
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "ajax": {
+                    "url": "/Person/GetPeople",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": function (json) {
+                        var data = json;
+                        var return_data = [];
+                        for (var i = 0; i < json.data.length; i++) {
+                            return_data.push({
+                                'id': json.data[i].id,
+                                'name': json.data[i].name,
+                                'surname': json.data[i].surname,
+                                'gender': json.data[i].gender,
+                                'age': json.data[i].age,
+                                'email': json.data[i].email,
+                                'address': json.data[i].address,
+                                'gitHub': json.data[i].gitHub,
+                                'actions': ''
+                            });
+                        }
+                        console.log(data);
+                        json.draw = data.draw;
+                        json.recordsTotal = data.recordsTotal;
+                        json.recordsFiltered = data.recordsFiltered;
+                        json.data = return_data;
+                        return json.data;
+
+                    }
+                },
+                "columnDefs": [{
+                    "targets": [0],
+                    "visible": true,
+                    "searchable": false
+                },
+                {
+                    "targets": [-1],
+                    "title": 'Actions',
+                    "orderable": false,
+                    "render": function (data, type, full, meta) {
+                        return `<a href="Update/` + full.id + `" class="btn btn-primary btn-rounded" title="Update">\n<i class="fas fa-pencil-alt fa-sm"></i>\n</a>\n`
+                            + '<a href="javascript:deleteOperation(' + "'" + full.id + "'" + ');" class="btn btn-danger btn-rounded" title="Delete"><i class="fas fa-trash-alt fa-2xs"></i>\n</a>'
+                            ;
+
+                    },
+                }],
+                "columns": [
+                    { "data": "id" },
+                    { "data": "name" },
+                    { "data": "surname" },
+                    { "data": "gender" },
+                    { "data": "age" },
+                    { "data": "email" },
+                    { "data": "address" },
+                    { "data": "gitHub" },
+                    { "data": "actions" },
+                ]
+            });
+        });
+    </script>
+
+
+}
+
+
+<button onclick="showInPopup('@Url.Action("AddContact","Person",null,Context.Request.Scheme)','Yeni Kisi Ekle')" type="button" class="btn btn-block btn-success col-1 ml-2 mt-2" data-toggle="modal" data-target="#modal-xl">
+    Kişi Ekle
+</button>
+
+<!-- /.Exception Messages -->
+@if (TempData["CreateSuccess"] is not null)
+{
+    <div class="col-md-3">
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h5><i class="icon fas fa-check"></i> Başarılı!</h5>
+            @TempData["CreateSuccess"]
+        </div>
+    </div>
+
+}
+
+@if (TempData["CreateError"] is not null)
+{
+    <div class="col-md-3">
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h5><i class="icon fas fa-ban"></i> Başarısız!</h5>
+            @TempData["CreateError"]
+        </div>
+    </div>
+
+}
+
+@if (TempData["DeleteSuccess"] is not null)
+{
+    <div class="col-md-3">
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h5><i class="icon fas fa-check"></i> Başarılı!</h5>
+            @TempData["DeleteSuccess"]
+        </div>
+    </div>
+}
+
+@if (TempData["DeleteError"] is not null)
+{
+    <div class="col-md-3">
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h5><i class="icon fas fa-ban"></i> Başarısız!</h5>
+            @TempData["DeleteError"]
+        </div>
+    </div>
+}
+
+@if (TempData["UpdateSuccess"] is not null)
+{
+    <div class="col-md-3">
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h5><i class="icon fas fa-check"></i> Başarılı!</h5>
+            @TempData["UpdateSuccess"]
+        </div>
+    </div>
+}
+
+<div class="col-12 mt-3">
+    <div class="card">
+        <div class="card-header">
+        </div>
+        <partial name="~/Views/Shared/_ModalForCreatePartialView.cshtml" />
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>İsim</th>
+                        <th>Soyisim</th>
+                        <th>Cinsiyet</th>
+                        <th>Yaş</th>
+                        <th>Email</th>
+                        <th>Adres</th>
+                        <th>GitHub</th>
+                        <th>Yapılacak İşlem</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+</div>
