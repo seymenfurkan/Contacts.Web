@@ -91,7 +91,6 @@
                                 'actions': ''
                             });
                         }
-                        console.log(data);
                         json.draw = data.draw;
                         json.recordsTotal = data.recordsTotal;
                         json.recordsFiltered = data.recordsFiltered;
@@ -110,11 +109,13 @@
                     "title": 'Actions',
                     "orderable": false,
                     "render": function (data, type, full, meta) {
-                        return `<a href="Update/` + full.id + `" class="btn btn-primary btn-rounded" title="Update">\n<i class="fas fa-pencil-alt fa-sm"></i>\n</a>\n`
+
+                        return `<a href="Update/` + full.id + `" class="btn btn-primary btn-rounded" title="Update" id = "edit" onclick="showInPopup('/Person/Update/` + full.id + `','Kişi Güncelle')" data-toggle="modal" data-target="#modal-xl">\n<i class="fas fa-pencil-alt fa-sm"></i>\n</a>\n`
                             + '<a href="javascript:deleteOperation(' + "'" + full.id + "'" + ');" class="btn btn-danger btn-rounded" title="Delete"><i class="fas fa-trash-alt fa-2xs"></i>\n</a>'
                             ;
 
                     },
+
                 }],
                 "columns": [
                     { "data": "id" },
@@ -130,6 +131,7 @@
             });
         });
     </script>
+   
 
 
 }
@@ -201,7 +203,7 @@
     <div class="card">
         <div class="card-header">
         </div>
-        <partial name="~/Views/Shared/_ModalForCreatePartialView.cshtml" />
+        <partial name="~/Views/Shared/_ModalPartialView.cshtml" />
         <!-- /.card-header -->
         <div class="card-body">
             <table id="example1" class="table table-bordered table-striped">

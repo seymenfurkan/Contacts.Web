@@ -23,6 +23,7 @@ namespace Contacts.Business.Mapping.ForPerson
             CreateMap<GetPersonByIdDto, UpdatePersonDto>().ReverseMap();
             CreateMap<GetPersonByIdDto, Person>().ReverseMap();
             CreateMap<Person, PersonListDto>().ReverseMap();
+
         }
     }
 }

@@ -8,7 +8,6 @@ showInPopup = (url, title) => {
         type: "GET",
         url: url,
         success: function (res) {
-            console.log(res);
             $("#modal-xl .modal-body").html(res);
             $("#modal-xl .modal-title").html(title);
             $("#modal-xl").modal("show");

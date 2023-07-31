@@ -2,6 +2,7 @@
 using Contacts.Business.Abstract;
 using Contacts.Core.Entities.DTOs;
 using Contacts.DataAccess.Concrete.EntityFrameworkCore;
+using Contacts.Entities.Concrete;
 using Contacts.Web.Models.PersonViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -129,6 +130,13 @@ namespace Contacts.Web.Controllers
             var mappedItem = _mapper.Map<GetPersonWithDetailByIdViewModel>(item);
             return View(mappedItem);
         }
+        [HttpGet]
+        public IActionResult GetDetailForUpdate(int id)
+        {
+            var item = _service.GetPersonDetail(id);
+            //var mappedItem = _mapper.Map<Person>(item);
+            return Json(item);
+        }
 
         public async Task<IActionResult> LogOut()
         {
@@ -155,7 +163,7 @@ namespace Contacts.Web.Controllers
                 int pageSize = length != null ? Convert.ToInt32(length) : 0;
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
-                var peopleData = (from person in _context.People select person);
+                var peopleData = (from person in _context.People where person.IsDeleted == false select person);
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
                 {
                     peopleData = peopleData.OrderBy(s => sortColumn + " " + sortColumnDirection);

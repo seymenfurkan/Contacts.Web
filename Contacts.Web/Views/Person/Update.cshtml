@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Update";
-    Layout = "_ExampleLayout";
+    Layout = null;
 }
 
 @model UpdatePersonViewModel
@@ -40,21 +40,21 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label>Kişi İsim:</label>
-                        <input asp-for="Name" name="Name" type="text" class="form-control" placeholder="Kişi ismini giriniz..">
+                        <input asp-for="Name" name="Name" id="name" type="text" class="form-control" placeholder="Kişi ismini giriniz..">
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label>Kişi Soyisim:</label>
-                        <input asp-for="Surname" name="Surname" type="text" class="form-control" placeholder="Kişi soyisim giriniz..">
+                        <input asp-for="Surname" name="Surname" id="surname" type="text" class="form-control" placeholder="Kişi soyisim giriniz..">
                     </div>
                     <div class="form-group">
                         <label>Yaş:</label>
-                        <input asp-for="Age" name="Age" type="number" class="form-control" placeholder="Yaş  giriniz..">
+                        <input asp-for="Age" name="Age" id="age" type="number" class="form-control" placeholder="Yaş  giriniz..">
                     </div>
                     <div class="form-group">
                         <label>Cinsiyet:</label>
                         <div class="form-group">
-                            <select class="form-control" asp-for="Gender" name="Gender">
+                            <select class="form-control" id="gender" asp-for="Gender" name="Gender">
                                 <option>Kız</option>
                                 <option>Erkek</option>
                                 <option>Belirtmek istemiyor</option>
@@ -63,15 +63,15 @@
                     </div>
                     <div class="form-group">
                         <label>Adres:</label>
-                        <input asp-for="Address" name="Address" type="text" class="form-control">
+                        <input asp-for="Address" name="Address" id="address" type="text" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Email:</label>
-                        <input asp-for="Email" name="Email" type="text" class="form-control">
+                        <input asp-for="Email" name="Email" id="email" type="text" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>GitHub:</label>
-                        <input asp-for="GitHub" name="GitHub" type="text" class="form-control">
+                        <input asp-for="GitHub" name="GitHub" id="gitHub" type="text" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-block bg-gradient-warning">Güncelle</button>
                 </div>

@@ -19,7 +19,9 @@ namespace Contacts.Web.Mapping.ForPerson
             CreateMap<GetPersonWithDetailByIdViewModel, GetPersonByIdDto>().ReverseMap();
             CreateMap<DeletePersonDto, DeletePersonViewModel>();
 
-            CreateMap<PersonDetailDto, GetPersonWithDetailByIdViewModel>().ReverseMap();
+            CreateMap<GetPersonWithDetailByIdViewModel,PersonDetailDto>().ReverseMap();
+
+            CreateMap<PersonDetailDto, GetPersonByIdViewModel>().ReverseMap();
         }
     }
 }
